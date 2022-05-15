@@ -17,10 +17,13 @@ namespace ImpactaAPI.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IAuthService _authService;
+        private readonly User _adminUser; 
 
         public AuthenticatorController(IAuthService authService)
         {
             _authService = authService;
+            _adminUser.email = Environment.GetEnvironmentVariable("adminEmail");
+            _adminUser.senha = Environment.GetEnvironmentVariable("adminPass");
         }
         [HttpPost]
         [Route("AuthenticateUser")]
