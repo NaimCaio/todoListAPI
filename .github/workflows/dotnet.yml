@@ -33,7 +33,7 @@ jobs:
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "todolistApp"
-          heroku_email: "felipebeserra25@gmail.com"
+          heroku_email: "caio.naim@gmail.com"
           usedocker: true
 
   deploy-hom:
