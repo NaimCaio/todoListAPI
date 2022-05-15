@@ -26,13 +26,13 @@ jobs:
       name: dev
     needs: build
     steps:
-      - uses: actions/checkout@v3
-      - name: Run a one-line script
-        run: echo Deploy Dev novo
+      - uses: actions/checkout@v1
+      - name: Login to Heroku Container registry
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      - name: run heroku
         run: heroku container:login
+      - name: Run a one-line script
+        run: echo Deploy Dev novo
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
