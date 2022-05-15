@@ -26,19 +26,12 @@ jobs:
       name: dev
     needs: build
     steps:
-      - uses: actions/checkout@v1
-      - name: Login to Heroku Container registry
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
-      - name: Run a one-line script
-        run: echo Deploy Dev novo
-      - uses: akhileshns/heroku-deploy@v3.12.12
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "todolistApp"
-          heroku_email: "caio.naim@gmail.com"
-          usedocker: true
+          heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
+          heroku_email: "YOUR EMAIL"
 
   deploy-hom:
     runs-on: ubuntu-latest
