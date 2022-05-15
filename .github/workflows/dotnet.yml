@@ -1,0 +1,47 @@
+name: .NETAPICICD
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run a one-line script
+        run: echo Deploy Dev novo
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "todolistApp"
+          heroku_email: "felipebeserra25@gmail.com"
+          usedocker: true
+
+  deploy-hom:
+    runs-on: ubuntu-latest
+    environment:
+      name: hom
+      url: 'http://localhost:19988'
+    needs: deploy-dev
+    steps:
+      - name: Run a one-line script
+        run: echo Deploy hom
