@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: dev
-      url: 'testecaionaim.com'
+      url: 'http://localhost:19999'
     needs: build
     steps:
       - name: Run a one-line script
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: hom
-      url: 'testecaionaimhom.com'
+      url: 'http://localhost:19988'
     needs: deploy-dev
     steps:
       - name: Run a one-line script
