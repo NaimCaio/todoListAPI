@@ -1,31 +1,23 @@
-name: CI-teste
-on:
-  workflow_dispatch:
-  
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run a one-line script
-        run: echo Hello, world!
-        
-  deploy-dev:
-    runs-on: ubuntu-latest
-    environment:
-      name: dev
-      url: 'http://localhost:19999'
-    needs: build
-    steps:
-      - name: Run a one-line script
-        run: echo Deploy Dev novo
-        
-  deploy-hom:
-    runs-on: ubuntu-latest
-    environment:
-      name: hom
-      url: 'http://localhost:19988'
-    needs: deploy-dev
-    steps:
-      - name: Run a one-line script
-        run: echo Deploy hom
+name: CI
 
+on:
+  push:
+    branches:
+    - master
+    - release/*
+
+jobs:
+  build_icolors:
+    runs-on: ubuntu-16.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build and deploy the Docker image
+      env: 
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        APP_NAME: ${{ 'icolors' }}
+      run: |
+        cd ./ASPNetCoreLabs/HerokuContainer
+        docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+        heroku container:push web -a $APP_NAME
+        heroku container:release web -a $APP_NAME
+ 
